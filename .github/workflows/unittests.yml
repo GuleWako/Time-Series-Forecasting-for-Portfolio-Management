@@ -29,10 +29,9 @@ jobs:
       env:
         PYTHONPATH: .
 
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: Code coverage for Time Series Forecasting
-        fail_ci_if_error: true
+    - name: Run Unit Tests with Coverage
+      run: |
+        pytest tests --cov=./ --cov-report=xml
+      env:
+        PYTHONPATH: .
+  
