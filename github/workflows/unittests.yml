@@ -1,0 +1,38 @@
+name: Time Series Forecasting for Portfolio Management Optimization
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.12
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas matplotlib seaborn scipy scikit-learn yfinance pytest pytest-cov
+
+    - name: Run Unit Tests with Coverage
+      run: |
+        pytest --cov=./ --cov-report=xml
+      env:
+        PYTHONPATH: .
+
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: Code coverage for Time Series Forecasting
+        fail_ci_if_error: true

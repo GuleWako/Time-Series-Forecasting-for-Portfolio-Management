@@ -108,6 +108,7 @@ def varAndSharpeRatio(stockData,tickers):
 def outlierDetection(stockData,tickers):
     # Get the highest and lowest returns
     for data, ticker in zip(stockData,tickers):
+        data.set_index("Date",inplace=True)
         high_returns = data.nlargest(30, 'Daily_Return') 
         low_returns = data.nsmallest(30, 'Daily_Return') 
         plt.figure(figsize=(10,6))
